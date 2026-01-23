@@ -1,4 +1,4 @@
-# Cluster-Aware Anomaly Detection for Heterogeneous IoMT Traffic
+# An Empirical Analysis of anomaly detection model paradigms under Heterogeneous IoMT attack traffic
 
 This repository contains the code and paper for an undergraduate research project
 that studies anomaly detection in heterogeneous Internet of Medical Things (IoMT) networks.
