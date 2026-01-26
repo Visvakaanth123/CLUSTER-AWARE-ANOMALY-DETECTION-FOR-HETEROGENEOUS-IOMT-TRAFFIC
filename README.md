@@ -1,47 +1,28 @@
-# An Empirical Analysis of Anomaly Detection Model Paradigms under Heterogeneous IoMT Attack Traffic
+# Empirical Analysis of Anomaly Detection Paradigms in Heterogeneous IoMT
+This repository contains the code and methodology for an empirical study evaluating how different unsupervised machine learning paradigms interpret malicious behavior in diverse Internet of Medical Things (IoMT) environments.
 
-This repository contains the code and paper for an undergraduate research project investigating anomaly detection in heterogeneous Internet of Medical Things (IoMT) networks. The study evaluates how different anomaly detection paradigms respond to diverse IoMT attack scenarios and analyzes the effect of traffic heterogeneity on detection behavior.
+# Research Overview
+Hospitals rely on a vast array of heterogeneous IoMT devices (infusion pumps, wearable sensors, imaging systems), each with distinct communication protocols and traffic patterns. This study evaluates the response of three distinct algorithmic paradigms when tasked with detecting anomalies in aggregated, multi-device traffic:
 
-# Problem Statement
+Tree-based: Isolation Forest (IF) 
 
-Hospital networks include a variety of IoMT devices with distinct traffic patterns. Centralized intrusion detection systems (IDS) typically aggregate traffic across devices, which can mask device-specific anomalies and reduce detection reliability.
+Boundary-based: One-Class SVM (OC-SVM) 
 
-This project examines how clustering similar IoMT device traffic and training cluster-specific anomaly detection models influences IDS performance. The focus is on empirical evaluation of model behavior, rather than on developing or comparing new models.
+Density-based: Local Outlier Factor (LOF) 
 
-# Dataset
+# Dataset & Preprocessing
+The analysis utilizes the CICIoMT2024 benchmark dataset.
 
-Experiments use the CICIoMT2024 dataset, which contains network flows from multiple IoMT devices commonly found in hospitals.
+Feature Engineering: Includes 46 statistical features covering packet headers, transport-level flags, protocol indicators, and temporal behavior .
 
-The dataset is used without modification, except for synthetic injection of anomalous flows to evaluate detection behavior under controlled scenarios.
+Normalization: Features are standardized to ensure distance-based models (OC-SVM, LOF) are not biased by numeric ranges.
 
-Features include packet header statistics, transport-level flags, protocol indicators, traffic volume, packet size statistics, and temporal behaviors.
-
-# Methodology
-
-Train a global Isolation Forest model on all IoMT traffic.
-
-Apply KMeans clustering to group flows with similar patterns.
-
-Train cluster-specific Isolation Forest models on each cluster.
-
-Inject anomalous flows (simulated attacks) and evaluate detection behavior.
-
-Analyze anomaly scores, detection speed, and sensitivity across models and clusters.
+Unsupervised Training: All models are trained exclusively on benign traffic to simulate real-world deployment where attack labels are unavailable.
 
 # Key Findings
 
-Cluster-specific models often detect anomalies in device traffic more quickly.
+Isolation Forest is superior for early-stage reconnaissance detection but struggles with subtle application-layer probes.
 
-Some subtle anomalies are more prominent in cluster-aware models, while other anomalies are detected faster by the global model.
+OC-SVM provides the highest overall sensitivity but suffers from "score saturation," making it difficult to prioritize high-severity alerts.
 
-Both global and cluster-aware models have limitations when anomalies closely resemble normal traffic.
-
-Traffic heterogeneity and modeling granularity significantly impact IDS behavior in hospital networks.
-
-# Notes
-
-All models are unsupervised; no labeled attack data is required.
-
-Malicious traffic was synthetically generated for controlled evaluation.
-
-This project was conducted as an independent undergraduate research study.
+LOF is highly effective at identifying high-intensity volumetric spikes but is easily evaded by "low-and-slow" stealthy scans
